@@ -28,18 +28,18 @@ SlashCmdList["PFDB"] = function(input, editbox)
       "|cff33ffcc/db|cffffffff locale |cffcccccc - " .. pfQuest_Loc["Display addon locales"]
     )
     DEFAULT_CHAT_FRAME:AddMessage(
-      "|cff33ffcc/db|cffffffff track <list>|cffcccccc - " .. pfQuest_Loc["Show available tracking lists"]
+      "|cff33ffcc/db|cffffffff track <liste>|cffcccccc - " .. pfQuest_Loc["Show available tracking lists"]
     )
-    DEFAULT_CHAT_FRAME:AddMessage("|cff33ffcc/db|cffffffff unit <unit> |cffcccccc - " .. pfQuest_Loc["Search unit"])
+    DEFAULT_CHAT_FRAME:AddMessage("|cff33ffcc/db|cffffffff unit <unité> |cffcccccc - " .. pfQuest_Loc["Search unit"])
     DEFAULT_CHAT_FRAME:AddMessage(
-      "|cff33ffcc/db|cffffffff object <gameobject> |cffcccccc - " .. pfQuest_Loc["Search object"]
+      "|cff33ffcc/db|cffffffff object <élément> |cffcccccc - " .. pfQuest_Loc["Search object"]
     )
-    DEFAULT_CHAT_FRAME:AddMessage("|cff33ffcc/db|cffffffff item <item> |cffcccccc - " .. pfQuest_Loc["Search loot"])
+    DEFAULT_CHAT_FRAME:AddMessage("|cff33ffcc/db|cffffffff item <objet> |cffcccccc - " .. pfQuest_Loc["Search loot"])
     DEFAULT_CHAT_FRAME:AddMessage(
-      "|cff33ffcc/db|cffffffff vendor <item> |cffcccccc - " .. pfQuest_Loc["Search item vendors"]
+      "|cff33ffcc/db|cffffffff vendor <objet> |cffcccccc - " .. pfQuest_Loc["Search item vendors"]
     )
     DEFAULT_CHAT_FRAME:AddMessage(
-      "|cff33ffcc/db|cffffffff quest <questname> |cffcccccc - " .. pfQuest_Loc["Show specific quest"]
+      "|cff33ffcc/db|cffffffff quest <nom de quête> |cffcccccc - " .. pfQuest_Loc["Show specific quest"]
     )
     DEFAULT_CHAT_FRAME:AddMessage(
       "|cff33ffcc/db|cffffffff quests |cffcccccc - " .. pfQuest_Loc["Show all quests on map"]
@@ -76,9 +76,12 @@ SlashCmdList["PFDB"] = function(input, editbox)
   if arg1 == "debug" then
     pfQuest_config.debug = not pfQuest_config.debug
     DEFAULT_CHAT_FRAME:AddMessage(
-      "|cff33ffccpf|cffffffffQuest Debug Mode: " .. (pfQuest_config.debug and "|cff33ff33ON" or "|cffff3333OFF")
+      "|cff33ffccpf|cffffffffQuest "
+        .. pfQuest_Loc["Debug Mode"]
+        .. ": "
+        .. (pfQuest_config.debug and "|cff33ff33" .. pfQuest_Loc["Enabled"] or "|cffff3333" .. pfQuest_Loc["Disabled"])
     )
-    pfQuest:Debug("Debug Mode Changed")
+    pfQuest:Debug(pfQuest_Loc["Debug Mode Changed"])
     return
   end
 
@@ -324,7 +327,10 @@ SlashCmdList["PFDB"] = function(input, editbox)
   if arg1 == "lock" then
     pfQuest_config.lock = not pfQuest_config.lock
     DEFAULT_CHAT_FRAME:AddMessage(
-      "|cff33ffccpf|cffffffffQuest Tracker: " .. (pfQuest_config.lock and "Locked" or "Unlocked")
+      "|cff33ffccpf|cffffffffQuest "
+        .. pfQuest_Loc["Quest Tracker"]
+        .. ": "
+        .. (pfQuest_config.lock and pfQuest_Loc["Locked"] or pfQuest_Loc["Unlocked"])
     )
     return
   end

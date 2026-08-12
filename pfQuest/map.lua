@@ -1072,7 +1072,7 @@ function pfMap:UpdateNode(frame, node, color, obj, distance)
 end
 
 function pfMap:UpdateNodes()
-  pfQuest:Debug("Update Nodes")
+  pfQuest:Debug(pfQuest_Loc["Update Nodes"])
 
   local color = pfQuest_config["spawncolors"] == "1" and "spawn" or "title"
   local map = pfMap:GetMapID(GetCurrentMapContinent(), GetCurrentMapZone())
@@ -1161,7 +1161,7 @@ function pfMap:UpdateNodes()
       end
     end
   end
-  pfQuest:Debug(format("UpdateNodes pins=%d skipped=%d", n_pins, n_skipped))
+  pfQuest:Debug(format(pfQuest_Loc["UpdateNodes pins=%d skipped=%d"], n_pins, n_skipped))
 
   -- hide remaining pins
   for j = i, table.getn(pfMap.pins) do
@@ -1179,7 +1179,12 @@ function pfMap:UpdateNodes()
 
   -- record which zone was rendered so WORLD_MAP_UPDATE can skip no-op opens
   pfMap.lastUpdateZone = map
-  pfMap.dirtyMaps[map] = nil
+  -- During login or /reload, the client can briefly return no valid map ID.
+  -- Reading a table with a nil key is harmless, but assigning one raises
+  -- "table index is nil". Keep the dirty state until a valid map is rendered.
+  if map then
+    pfMap.dirtyMaps[map] = nil
+  end
   -- map has fully rendered; subsequent zone changes are deliberate user actions
   pfMap.mapJustOpened = nil
 end

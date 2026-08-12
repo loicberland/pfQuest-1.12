@@ -89,8 +89,14 @@ pfQuestCompat.GetPlayerFacing = GetPlayerFacing
 -- vanilla: overwrite the out-of-memory popup on vanilla clients, to provide some help
 -- on how to increase the limits, and also displaying a link to an example.
 if client <= 11200 then
-  local memlimit = "The user interface is using more than %dMB of memory.\n\n"
-    .. "Set '|cffffee55Script Memory|r' to '|cffffee550|r' in the addon selection of your character login screen:"
+  local memlimit
+  if GetLocale() == "frFR" then
+    memlimit = "L'interface utilisateur utilise plus de %d Mo de mémoire.\n\n"
+      .. "Réglez '|cffffee55Mémoire des scripts|r' sur '|cffffee550|r' dans la liste des addons de l'écran de sélection du personnage :"
+  else
+    memlimit = "The user interface is using more than %dMB of memory.\n\n"
+      .. "Set '|cffffee55Script Memory|r' to '|cffffee550|r' in the addon selection of your character login screen:"
+  end
 
   local striptex = function(frame)
     for _, v in ipairs({ frame:GetRegions() }) do

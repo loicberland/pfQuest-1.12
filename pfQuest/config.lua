@@ -415,6 +415,13 @@ pfQuestConfig:SetScript("OnEvent", function()
     pfQuestConfig:CreateConfigEntries(pfQuest_defconfig)
 
     pfQuest_questcache = pfQuest_questcache or {}
+    -- Quest IDs cached by title/text are database-specific. Reset only that
+    -- cache when the bundled CMaNGOS overlay changes; keep character history
+    -- and every user setting intact.
+    local questCacheVersion = "cmangos-classicdb-c28a871e695c-v1"
+    if pfQuest_questcache.__databaseVersion ~= questCacheVersion then
+      pfQuest_questcache = { ["__databaseVersion"] = questCacheVersion }
+    end
     pfQuest_history = pfQuest_history or {}
     pfQuest_colors = pfQuest_colors or {}
     pfQuest_config = pfQuest_config or {}

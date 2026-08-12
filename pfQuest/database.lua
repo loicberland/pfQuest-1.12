@@ -452,13 +452,18 @@ if isempty(pfDB["quests"]["loc"]) then
       return
     end
     DEFAULT_CHAT_FRAME:AddMessage(
-      "|cffff5555 !! |cffffaaaaWrong version of |cff33ffccpf|cffffffffQuest|cffffaaaa detected.|cffff5555 !!"
+      "|cffff5555 !! |cffffaaaa" .. pfQuest_Loc["Wrong version of pfQuest detected."] .. "|cffff5555 !!"
     )
-    DEFAULT_CHAT_FRAME:AddMessage("|cffffccccThe language pack does not match the gameclient's language.")
     DEFAULT_CHAT_FRAME:AddMessage(
-      "|cffffccccYou'd either need to pick the complete or the " .. GetLocale() .. "-version."
+      "|cffffcccc" .. pfQuest_Loc["The language pack does not match the gameclient's language."]
     )
-    DEFAULT_CHAT_FRAME:AddMessage("|cffffccccFor more details, see: https://shagu.org/pfQuest")
+    DEFAULT_CHAT_FRAME:AddMessage(
+      "|cffffcccc" .. string.format(
+        pfQuest_Loc["You need to use either the complete version or the %s version."],
+        GetLocale()
+      )
+    )
+    DEFAULT_CHAT_FRAME:AddMessage("|cffffcccc" .. pfQuest_Loc["For more details, see: https://shagu.org/pfQuest"])
     this:Hide()
   end)
 end
@@ -1218,9 +1223,9 @@ function pfDatabase:SearchZoneID(id, meta, maps, prio)
 
     meta["title"] = meta["quest"] or meta["item"] or meta["spawn"]
     meta["zone"] = zone
-    meta["level"] = "N/A"
+    meta["level"] = pfQuest_Loc["N/A"]
     meta["spawntype"] = pfQuest_Loc["Area/Zone"]
-    meta["respawn"] = "N/A"
+    meta["respawn"] = pfQuest_Loc["N/A"]
     meta["x"] = x
     meta["y"] = y
 
@@ -1955,7 +1960,7 @@ function pfDatabase:SearchQuests(meta, maps)
 
   pfQuest:Debug(
     format(
-      "|cffff3333TIMER SearchQuests total=%.4fs  filter=%.4fs  remove=%d(%.4fs)  nodes=%.4fs",
+      pfQuest_Loc["|cffff3333TIMER SearchQuests total=%.4fs  filter=%.4fs  remove=%d(%.4fs)  nodes=%.4fs"],
       GetTime() - t_start,
       t_filter,
       removed,
@@ -2322,16 +2327,23 @@ local function OnQuestQueryComplete(self)
     -- Reset all quest markers after processing completed quests
     pfQuest:ResetAll()
   elseif completedQuests == nil then
-    print("Error: GetQuestsCompleted() returned nil.")
+    print(pfQuest_Loc["Error: GetQuestsCompleted() returned nil."])
   else
-    print("Error: GetQuestsCompleted() did not return a valid table. Value: ", completedQuests)
+    print(
+      string.format(
+        pfQuest_Loc["Error: GetQuestsCompleted() did not return a valid table. Value: %s"],
+        tostring(completedQuests)
+      )
+    )
   end
 end
 
 function pfDatabase:QueryServer()
   -- break here on incompatible versions
   if not QueryQuestsCompleted then
-    DEFAULT_CHAT_FRAME:AddMessage("|cff33ffccpf|cffffffffQuest: Option is not available on your server.")
+    DEFAULT_CHAT_FRAME:AddMessage(
+      "|cff33ffccpf|cffffffffQuest: " .. pfQuest_Loc["Option is not available on your server."]
+    )
     return
   end
 

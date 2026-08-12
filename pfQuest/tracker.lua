@@ -288,7 +288,11 @@ function tracker.ButtonClick()
       -- mark as done in history
       pfQuest_history[this.node.questid] = { time(), UnitLevel("player") }
       UIErrorsFrame:AddMessage(
-        string.format("The Quest |cffffcc00[%s]|r (id:%s) is now marked as done.", this.title, this.node.questid),
+        string.format(
+          pfQuest_Loc["The Quest |cffffcc00[%s]|r (id:%s) is now marked as done."],
+          this.title,
+          this.node.questid
+        ),
         1,
         1,
         1

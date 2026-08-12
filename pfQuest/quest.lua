@@ -162,7 +162,7 @@ pfQuest:SetScript("OnUpdate", function()
   if (this.qlogtick or 1) < GetTime() then
     local t0 = GetTime()
     if pfQuest:UpdateQuestlog() then
-      pfQuest:Debug(format("Update Quest|cff33ffccLog|r [|cffff3333Tick|r] %.4fs", GetTime() - t0))
+      pfQuest:Debug(format(pfQuest_Loc["Update Quest|cff33ffccLog|r [|cffff3333Tick|r] %.4fs"], GetTime() - t0))
     end
     this.qlogtick = GetTime() + 1
   end
@@ -170,17 +170,17 @@ pfQuest:SetScript("OnUpdate", function()
   if this.updateQuestLog == true and pfQuest.queueCount == 0 then
     local t0 = GetTime()
     pfQuest:UpdateQuestlog()
-    pfQuest:Debug(format("Update Quest|cff33ffccLog %.4fs", GetTime() - t0))
+    pfQuest:Debug(format(pfQuest_Loc["Update Quest|cff33ffccLog %.4fs"], GetTime() - t0))
     this.updateQuestLog = false
   end
 
   if this.updateQuestGivers == true then
-    pfQuest:Debug("Update Quest|cff33ffcc Givers")
+    pfQuest:Debug(pfQuest_Loc["Update Quest|cff33ffcc Givers"])
     if pfQuest_config["trackingmethod"] ~= 4 and pfQuest_config["allquestgivers"] == "1" then
       local meta = { ["addon"] = "PFQUEST" }
       local t0 = GetTime()
       pfDatabase:SearchQuests(meta)
-      pfQuest:Debug(format("|cffff3333TIMER SearchQuests: %.4fs", GetTime() - t0))
+      pfQuest:Debug(format(pfQuest_Loc["|cffff3333TIMER SearchQuests: %.4fs"], GetTime() - t0))
     end
     this.updateQuestGivers = false
   end
@@ -199,7 +199,7 @@ pfQuest:SetScript("OnUpdate", function()
 
     -- remove quest
     if entry[4] == "REMOVE" then
-      pfQuest:Debug("|cffff5555Remove Quest: " .. entry[1] .. " (" .. entry[2] .. ")")
+      pfQuest:Debug(format(pfQuest_Loc["|cffff5555Remove Quest: %s (%s)"], entry[1], entry[2]))
 
       -- write pfQuest.questlog history
       if entry[1] == pfQuest.abandon then
@@ -221,15 +221,15 @@ pfQuest:SetScript("OnUpdate", function()
         if entry[2] and pfDB["quests"]["loc"][entry[2]] and pfDB["quests"]["loc"][entry[2]].T then
           pfMap:DeleteNode("PFQUEST", pfDB["quests"]["loc"][entry[2]].T)
         end
-        pfQuest:Debug(format("|cffffff00TIMER DeleteNode(REMOVE): %.4fs", GetTime() - t0))
+        pfQuest:Debug(format(pfQuest_Loc["|cffffff00TIMER DeleteNode(REMOVE): %.4fs"], GetTime() - t0))
       end
 
       pfQuest.abandon = ""
     else
       if entry[4] == "NEW" then
-        pfQuest:Debug("|cff55ff55New Quest: " .. entry[1] .. " (" .. entry[2] .. ")")
+        pfQuest:Debug(format(pfQuest_Loc["|cff55ff55New Quest: %s (%s)"], entry[1], entry[2]))
       else
-        pfQuest:Debug("|cffffff55Update Quest: " .. entry[1] .. " (" .. entry[2] .. ")")
+        pfQuest:Debug(format(pfQuest_Loc["|cffffff55Update Quest: %s (%s)"], entry[1], entry[2]))
       end
 
       -- update quest nodes
@@ -242,7 +242,7 @@ pfQuest:SetScript("OnUpdate", function()
         if entry[2] and pfDB["quests"]["loc"][entry[2]] and pfDB["quests"]["loc"][entry[2]].T then
           pfMap:DeleteNode("PFQUEST", pfDB["quests"]["loc"][entry[2]].T)
         end
-        pfQuest:Debug(format("|cffffff00TIMER DeleteNode(NEW/RELOAD): %.4fs", GetTime() - t0))
+        pfQuest:Debug(format(pfQuest_Loc["|cffffff00TIMER DeleteNode(NEW/RELOAD): %.4fs"], GetTime() - t0))
 
         -- skip quest objective detection on manual and tracked mode
         if
@@ -252,7 +252,7 @@ pfQuest:SetScript("OnUpdate", function()
           local meta = { ["addon"] = "PFQUEST", ["qlogid"] = entry[3] }
           local t1 = GetTime()
           pfDatabase:SearchQuestID(entry[2], meta)
-          pfQuest:Debug(format("|cffff8800TIMER SearchQuestID: %.4fs", GetTime() - t1))
+          pfQuest:Debug(format(pfQuest_Loc["|cffff8800TIMER SearchQuestID: %.4fs"], GetTime() - t1))
         end
       end
     end
@@ -384,7 +384,7 @@ end
 -- register popup dialog to copy urls
 StaticPopupDialogs["PFQUEST_URLCOPY"] = {
   text = "|cff33ffccpf|cffffffffQuest " .. pfQuest_Loc["Online Search"],
-  button1 = "Close",
+  button1 = pfQuest_Loc["Close"],
   hasEditBox = 1,
   hasWideEditBox = 1,
   timeout = 0,
